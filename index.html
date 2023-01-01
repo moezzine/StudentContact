@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <title>Document</title>
+    
+      
+</head>
+<body>
+  <div class="container-fluid">
+    <nav class="navbar bg-primary" style="border-radius: 5px; margin-top:3px">
+        <span class="navbar-text" style="color:white;font-size:30px ;padding-left:10px; ">
+            CHAT ESSAT V1.0
+        </span>
+    </nav>
+    <div class="row">
+        <div class="col-3">
+          <div class="row" >
+            <div style="display:none; background-color: rgb(238, 241, 243); border-radius: 5px; margin-top: 5px;margin-left: 10px;" id="bienvenue" ><sprong>Bienvenue :<spam id="thismail"></spam></sprong></div>
+          </div>
+<!---- /*///////////////////////////////////Connexion////////////////////////////////////////////////////////////////////////////////*/-->
+            <div class="row  " id="con" style="display: block;">
+                <div class="card"  style="margin-left: 12px;margin-top: 5px; background-color:rgb(245, 250, 250)">
+                  <div class="card-body">
+                    <div class="row">
+                      <label  class="form-label" ><strong  >Connexion</strong></label>
+                    </div>
+                    <div class="row">
+                      <input type="email" class="form-control mb-3 mt-3" id="email" placeholder="email@email.com">
+                    </div>
+                    <div class="row">
+                      <input type="password" class="form-control mb-3 mt-3" id="password" placeholder="password">
+                    </div>
+                    <div class="row">
+                      <button type="button" class="btn btn-primary" onclick="connexion()">Connexion</button>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+<!--/*////////////////////////////Inscription/////////////////////////////////////////////////////////////////////////////////////////////////*/-->
+             
+            <div class="row"  id="ins" style="display: block;">
+                <div class="card" style=" margin-top: 5px; margin-left: 12px; background-color:rgb(245, 250, 250)">
+                  <div class="card-body">
+                    <div class="row">
+                      <label  class="form-label"><strong>INSCRIPTION</strong></label>
+                    </div>
+                    <div class="row">
+                      <input type="text" class="form-control mb-3 mt-3" id="texti" placeholder="votre nom">
+                    </div>
+                    <div class="row">
+                      <input type="email" class="form-control mb-3 mt-3" id="emaili" placeholder="votre mail">
+                    </div>
+                    <div class="row">
+                      <input type="password" class="form-control mb-3 mt-3" id="passwordi" placeholder=" votre password">
+                    </div>
+                    <div class="row">
+                      <button type="submit" onclick="inscription()" class="btn btn-primary">Inscription</button>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+<!--/*//////////////////////////////////////////////////////////Message///////////////////////////////////////////////*/-->
+        <div class="col-9" >
+            <div class="row" style=" margin-left: 0px;margin-top: 8px;margin-right: 2px" >
+                <div class="col-10">
+                  <input class="form-control" type="text" id="envoi"  placeholder="Votre message" style="background-color: rgb(246, 248, 250);">
+                </div>
+                    <div class="col-2"  style="margin-top: 20px;" >
+                       <button type="button" onclick="envoyerMessage()" class="btn btn-warning "style="width: 150px;"><strong>Envoi message</strong></button> 
+                    </div>
+            </div>
+            <div class="row" style="background-color: rgb(210, 219, 228);border-radius: 5px; margin-left: 10px;margin-top: 8px;margin-right: 2px" >
+                <div class="col-12">
+                    <ol>
+                        <li>
+                       
+                        </li> 
+                  </ol>
+
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+  <script>
+function connexion(){
+  var xhr=new XMLHttpRequest();
+  xm=xhr.responseText;
+  console.log(xm);
+  var emails=document.getElementById('email').value;
+  var passe=document.getElementById('password').value;
+  xhr.open("GET","http://chakerbm.tn/services/verif.php?email="+emails+"&pass="+passe);
+  xhr.send();
+  xhr.onload=()=>{
+    console.log(xhr.responseText);
+  }
+  xhr.onreadystatechange = function() {
+  if (xhr.readyState == 4 && xhr.status == 200 ) {
+    document.getElementById('ins').style.display='none';
+    document.getElementById('con').style.display='none';
+    document.getElementById('bienvenue').style.display='block';
+    document.getElementById('thismail').innerHTML=document.getElementById('email').value;
+    alert("ok");
+  }
+}
+}
+    function inscription(){
+      var xhr=new XMLHttpRequest();
+      var nom=document.getElementById('texti').value;
+      var email=document.getElementById('emaili').value;
+      var pass=document.getElementById('passwordi').value;
+      xhr.open("POST","http://chakerbm.tn/services/adduser.php",true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+      xhr.send("nom=" + nom + "&email=" + email + "&pass=" + pass);
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200 ) {
+        var mgss=xhr.responseText;
+        console.log(mgss);
+           document.getElementById('texti').value="";
+           document.getElementById('emaili').value="";
+           document.getElementById('passwordi').value="";
+           console.log("ok");
+  
+        }   
+  }
+      };
+     function envoyerMessage(){
+      var xhr=new XMLHttpRequest();
+      var msg=document.getElementById('envoi').value;
+      var mail=document.getElementById('thismail').innerHTML;
+      xhr.open("POST","http://chakerbm.tn/services/addmessage.php",true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+      xhr.send("message=" + msg + "&email=" + mail + "");
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200 ) {
+        var mgss=JSON.parse(xhr.responseText);
+        console.log(mgss);
+           document.getElementById('envoi').value="";
+           console.log(mail);
+  
+        }   
+
+      }
+     }
+     var xhr=new XMLHttpRequest();
+     xhr.open("GET","http://chakerbm.tn/services/messages.php",true);
+     xhr.send();
+     var mgss=JSON.parse(xhr.responseText);
+     console.log(mgss);
+     document.getElementsByTagName("li").item=mgss;
+     charger();
+setInterval(function () {
+charger();
+}, 2000 );                 
+
+   </script> 
+</body>
+</html>
